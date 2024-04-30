@@ -46,7 +46,7 @@ async function showStations(url) {
             return L.marker(latlng, {
                 icon: L.icon({
                     iconUrl: 'icons/wifi.png',
-                    iconAnchor: [16, 37], // 16, weil Bild genau um die Hälfte nach links verschoben werden muss
+                    iconAnchor: [16, 0], // 16, weil Bild genau um die Hälfte nach links verschoben werden muss
                     popAnchor: [0, -37]
                 })
             });
@@ -56,14 +56,15 @@ async function showStations(url) {
             console.log(feature.properties.name);
             layer.bindPopup(`
           <h4>${feature.properties.name} (${feature.geometry.coordinates[2]} m)</h4>
-        <ul>
-            <li>Lufttemperatur (°C): ${feature.properties.LT|| "-"}</li>
-            <li>Relative Luftfeuchte (%): ${feature.properties.RH ||"-"}</li>
-            <li>Windgeschwindigkeit (km/h): ${feature.properties.WG|| "-"} </li>
-            <li>Schneehöhe (cm): ${feature.properties.HS|| "-"} </li>
-        <ul>
-        <p>${feature.properties.date}</p>
-    `);
+          <ul>
+          <li>Lufttemperatur (°C): ${feature.properties.LT || "-"}</li>
+          <li>Relative Luftfeuchte (%): ${feature.properties.RH || "-"}</li>
+          <li>Windgeschwindigkeit (km/h): ${feature.properties.WG || "-"} </li>
+          <li>Schneehöhe (cm): ${feature.properties.HS || "-"} </li>
+          </ul>
+          <p>${feature.properties.date}</p>
+
+        `);
         }
     }).addTo(themaLayer.stations);
 
