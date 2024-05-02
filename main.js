@@ -87,7 +87,7 @@ function showWind(geojson) {
             let color = getColor(feature.properties.WG, COLORS.wind); //für jede Temp. steht jetzt Farbe da
             return L.marker(latlng, {
                 icon: L.divIcon({
-                    className: "aws-div-icon",
+                    className: "aws-div-icon-wind",
                     html: `<span title = "${feature.properties.WG.toFixed(1)} km/h"> 
                     <i style="transform:rotate(${feature.properties.WR}deg); color:${color}" class="fa-solid fa-circle-arrow-down"></i></span>`,
                 })
