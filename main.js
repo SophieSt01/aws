@@ -88,7 +88,8 @@ function showWind(geojson) {
             return L.marker(latlng, {
                 icon: L.divIcon({
                     className: "aws-div-icon",
-                    html: `<span style="background-color:${color};"> ${feature.properties.WG.toFixed(1)}</span>`
+                    html: `<span title = "${feature.properties.WG.toFixed(1)} km/h"> 
+                    <i style="transform:rotate(${feature.properties.WR}deg); color:${color}" class="fa-solid fa-circle-arrow-down"></i></span>`,
                 })
             })
         }
