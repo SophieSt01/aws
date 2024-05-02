@@ -13,7 +13,7 @@ let map = L.map("map", {
 
 // thematische Layer
 let themaLayer = {
-    stations: L.featureGroup().addTo(map), 
+    stations: L.featureGroup(), // wenn ich ergänze: .addTo(map), dann wirds direkt in der Karte angezeigt, so muss ichs anklicken
     temperature: L.featureGroup().addTo(map)
 }
 
@@ -39,6 +39,12 @@ L.control.scale({
 // Temperaturfunktion definieren
 function showTemperature(geojson) {
     L.geoJSON(geojson, {
+        filter: function(feature){
+            //feature.properties.LT; wenn man am Ende der Funktion sagt: "return True", dann wird er angezeigt, sonst nicht
+            if(feature.properties.LT > -50 && feature.properties.LT < 50){
+                return true;
+            }
+        },
         pointToLayer: function(feature, latlng) {
             return L.marker(latlng, {
                 icon: L.divIcon({
