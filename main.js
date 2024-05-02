@@ -54,6 +54,8 @@ async function showStations(url) {
         onEachFeature: function (feature, layer) {
             console.log(feature);
             console.log(feature.properties.name);
+            let pointInTime = new Date (feature.properties.date)
+            console.log(pointInTime)
             layer.bindPopup(`
           <h4>${feature.properties.name} (${feature.geometry.coordinates[2]} m)</h4>
           <ul>
@@ -63,6 +65,7 @@ async function showStations(url) {
           <li>Schneehöhe (cm): ${feature.properties.HS || "-"} </li>
           </ul>
           <p>${feature.properties.date}</p>
+          <span>${pointInTime.toLocaleString()}</span>
 
         `);
         }
@@ -70,3 +73,6 @@ async function showStations(url) {
 
 }
 showStations("https://static.avalanche.report/weather_stations/stations.geojson");
+
+// noch bessere Alternative für Zeile 60 (hier passts auch mit 0°C):
+// <li> Lufttemperatur (°C): ${feature.properties.LT != undefined ? feature.properties.LT.toFixed(1): "-"}</li> 
