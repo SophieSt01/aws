@@ -36,6 +36,21 @@ L.control.scale({
     imperial: false,
 }).addTo(map);
 
+// funktion, die Farbe für Temperatur, Wind, Schneehöhe definiert
+function getColor(value, ramp) {  // ramp steht für Farbpalette
+    //console.log("getColor: value:", value, "ramp:", ramp);
+    for (let rule of ramp) {
+        //console.log("Rule: ", rule);
+        if (value >= rule.min && value < rule.max) {
+            return rule.color;
+        }
+    }
+}
+
+// zum ausprobieren, obs geht:
+/*let color = getColor(17, COLORS.temperature);
+console.log("Color for 17 deg.:", color); */
+
 // Temperaturfunktion definieren
 function showTemperature(geojson) {
     L.geoJSON(geojson, {
