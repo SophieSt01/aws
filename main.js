@@ -74,7 +74,7 @@ function showTemperature(geojson) {
     }).addTo(themaLayer.temperature); //gson aufruf, den braucht es am schluss, damit es auch angezeigt wird
 }
 
-
+// Windfunktion
 function showWind(geojson) {
     L.geoJSON(geojson, {
         filter: function(feature){
@@ -95,6 +95,28 @@ function showWind(geojson) {
         }
     }).addTo(themaLayer.wind);
 }
+
+// Schneehöhen-Funktion
+function showSnowHeight(geojson) {
+    L.geoJSON(geojson, {
+        filter: function(feature){
+            //feature.properties.LT; wenn man am Ende der Funktion sagt: "return True", dann wird er angezeigt, sonst nicht
+            if(feature.properties.WG> 0 && feature.properties.WG < 700){
+                return true;
+            }
+        },
+        pointToLayer: function(feature, latlng) {
+            let color = getColor(feature.properties.snowheight, COLORS.snowheight); //für jede Temp. steht jetzt Farbe da
+            return L.marker(latlng, {
+                icon: L.divIcon({
+                    className: "aws-div-icon-snowheight",
+                    html: `<span title = "${feature.properties.snowheight.toFixed(1)} cm"> </span>`,
+                })
+            })
+        }
+    }).addTo(themaLayer.snowheight);
+}
+
 
 // GeoJSON der Wetterstationen laden (muss asynchron sein: async --> await)
 async function showStations(url) {
