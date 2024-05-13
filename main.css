@@ -78,3 +78,17 @@ footer nav {
     display: inline-block;
     transform: translate(-30%, -50%); /* verschieben des Temperaturlabes */
 }
+
+.aws-div-icon-snowheight span { /* wird so nur auf den Span-Bereich (Text) innerhalb des icons angewendet */
+    border: 1px solid silver;
+    font-size: 1.25em;
+    font-weight: bold;
+    padding:0.3em; /* Rahmen */
+    text-shadow: 
+        -1px -1px 0 white,
+        -1px 1px 0 white,
+        1px -1px 0 white,
+        1px 1px 0 white; /*letzter Eintrag beim Text shadow: strichpunkt */
+    display: inline-block;
+    transform: translate(-30%, -50%); /* verschieben des Temperaturlabes */
+}

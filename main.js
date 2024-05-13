@@ -14,8 +14,9 @@ let map = L.map("map", {
 // thematische Layer
 let themaLayer = {
     stations: L.featureGroup(), // wenn ich ergänze: .addTo(map), dann wirds direkt in der Karte angezeigt, so muss ichs anklicken
-    temperature: L.featureGroup().addTo(map),
-    wind: L.featureGroup().addTo(map)
+    temperature: L.featureGroup(),
+    wind: L.featureGroup(),
+    snowheight: L.featureGroup().addTo(map)
 }
 
 // Hintergrundlayer
@@ -30,7 +31,20 @@ L.control.layers({
 }, {
     "Wetterstationen": themaLayer.stations,
     "Temperatur (°C)": themaLayer.temperature,
-    "Windgeschwindigkeit": themaLayer.wind,
+    "Windgeschwindigkeit (km/h)": themaLayer.wind,
+    "Schneehöhe (cm)": themaLayer.snowheight,
+}).addTo(map);
+
+// Rainviewer hinzufügen
+L.control.rainviewer({ 
+    position: 'bottomleft',
+    nextButtonText: '>',
+    playStopButtonText: 'Play/Stop',
+    prevButtonText: '<',
+    positionSliderLabelText: "Hour:",
+    opacitySliderLabelText: "Opacity:",
+    animationInterval: 500,
+    opacity: 0.5
 }).addTo(map);
 
 // Maßstab
@@ -101,16 +115,16 @@ function showSnowHeight(geojson) {
     L.geoJSON(geojson, {
         filter: function(feature){
             //feature.properties.LT; wenn man am Ende der Funktion sagt: "return True", dann wird er angezeigt, sonst nicht
-            if(feature.properties.WG> 0 && feature.properties.WG < 700){
+            if(feature.properties.HS> 0 && feature.properties.HS < 700){
                 return true;
             }
         },
         pointToLayer: function(feature, latlng) {
-            let color = getColor(feature.properties.snowheight, COLORS.snowheight); //für jede Temp. steht jetzt Farbe da
+            let color = getColor(feature.properties.HS, COLORS.snowheight); //für jede Temp. steht jetzt Farbe da
             return L.marker(latlng, {
                 icon: L.divIcon({
                     className: "aws-div-icon-snowheight",
-                    html: `<span title = "${feature.properties.snowheight.toFixed(1)} cm"> </span>`,
+                    html: `<span style="background-color:${color};"> ${feature.properties.HS.toFixed(1)}</span>`,
                 })
             })
         }
@@ -156,6 +170,7 @@ async function showStations(url) {
     }).addTo(themaLayer.stations);
     showTemperature(geojson);
     showWind(geojson);
+    showSnowHeight(geojson);
 }
 showStations("https://static.avalanche.report/weather_stations/stations.geojson");
 
